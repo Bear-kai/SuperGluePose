@@ -393,18 +393,18 @@ def compute_pose_error(T_0to1, R, t):
     return error_t, error_R
 
 
-def pose_auc(errors, thresholds):
+def pose_auc(errors, thresholds):                           # PoseCNN, DenseFusion中都是用的该metric！
     sort_idx = np.argsort(errors)
     errors = np.array(errors.copy())[sort_idx]
-    recall = (np.arange(len(errors)) + 1) / len(errors)
+    recall = (np.arange(len(errors)) + 1) / len(errors)     # 这里其实是precision！
     errors = np.r_[0., errors]
     recall = np.r_[0., recall]
     aucs = []
     for t in thresholds:
         last_index = np.searchsorted(errors, t)
         r = np.r_[recall[:last_index], recall[last_index-1]]
-        e = np.r_[errors[:last_index], t]
-        aucs.append(np.trapz(r, x=e)/t)
+        e = np.r_[errors[:last_index], t]                   # r,e都先按t进行截取，因此曲线是不完整的！
+        aucs.append(np.trapz(r, x=e)/t)                     # 比如阈值t=10cm=0.1m，这里除以t相当于是将np.trapz的积分结果(曲线下面积)直接乘以10倍，作为完整曲线下的面积！
     return aucs
 
 
@@ -525,11 +525,11 @@ def make_matching_plot_fast(image0, image1, kpts0, kpts1, mkpts0,
     Ht = int(30 * sc)  # text height
     txt_color_fg = (255, 255, 255)
     txt_color_bg = (0, 0, 0)
-    for i, t in enumerate(text):
+    for i, t in enumerate(text):      # 粗黑打底 + 细白覆盖 --> 白底黑边的字                          
         cv2.putText(out, t, (int(8*sc), Ht*(i+1)), cv2.FONT_HERSHEY_DUPLEX,
-                    1.0*sc, txt_color_bg, 2, cv2.LINE_AA)
+                    1.0*sc, txt_color_bg, 2, cv2.LINE_AA)        
         cv2.putText(out, t, (int(8*sc), Ht*(i+1)), cv2.FONT_HERSHEY_DUPLEX,
-                    1.0*sc, txt_color_fg, 1, cv2.LINE_AA)
+                    1.0*sc, txt_color_fg, 1, cv2.LINE_AA)       
 
     # Small text.
     Ht = int(18 * sc)  # text height

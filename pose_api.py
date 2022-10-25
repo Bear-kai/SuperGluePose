@@ -407,7 +407,7 @@ def example():
     # Visualize the matches.
     if vis_and_save:
         results_extra = results_extra[0]
-        color = cm.jet(results_extra['mconf'])
+        color = cm.jet(results_extra['mconf'])  # eg. (#keypts=38, 4)
         text, small_text = get_text(results_extra['kpts0'], results_extra['kpts1'], 
                                     results_extra['mkpts0'], stem0, stem1, api.matching)
         viz_path = output_dir / '{}_{}_matches.png'.format(stem0, stem1)

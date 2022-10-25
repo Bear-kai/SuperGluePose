@@ -6,7 +6,7 @@
   + Pose estimation (i.e. the delta pose from the 1st frame to the 2nd frame) is then conducted by either 2D-2D epipolar geometry or 3D-3D ransac registration.
   + Given the object mask and pose in the 1st frame, the pose of the corresponding object in the 2nd frame can be recovered by a simple transformation. 
   + Here object pose refers to the rigid transformation from the object corrdinate system to the camera coordinate system of the 1st frame. 
-  + Also note that the pose obtained by 2D-2D epipolar geometry is up to scale which means the translation can be in meters or in centimenters, etc. To perform 3D-3D ransac registration, the depth maps are required.
+  + Also note that the pose obtained by 2D-2D epipolar geometry is up to scale which means the translation can be in meters or in centimeters, etc. To perform 3D-3D ransac registration, the depth maps are required.
 - Some sample data in `my_test_data` are also provided for testing.
 - Follow the environment setup of SuperGlue, then run `pip install open3d`. (ransac registration is based on the implementation of [open3d](http://www.open3d.org/docs/release/index.html))
 
